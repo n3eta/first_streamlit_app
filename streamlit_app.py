@@ -1,4 +1,4 @@
-import streamlit sl
+import streamlit as sl
 sl.title('My Parents New Healthy Diner')
 
 sl.header('Breakfast Menu')
