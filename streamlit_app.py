@@ -1,3 +1,4 @@
+#https://n3eta-first-streamlit-app-streamlit-app-reon2f.streamlit.app/
 import streamlit
 import pandas
 import requests
@@ -46,10 +47,12 @@ try:
 except URLError as e:
       streamlit.error()
       
-streamlit.write('The user entered ', fruit_choice)
+streamlit.write('You have entered ', fruit_choice)
 
 
 streamlit.header("FRUIT Load List Contains:")
+
+#get the list of fruits from snowflake table
 def get_fruit_load_list():
    my_cur = my_cnx.cursor()
    my_cur.execute("SELECT * from FRUIT_LOAD_LIST")
@@ -60,12 +63,11 @@ if streamlit.button('Get Fruit Load List'):
    my_data_rows = get_fruit_load_list()
    streamlit.dataframe(my_data_rows)
    
-#don't run anything past this
-#streamlit.stop()   
 
+#insert fruit enetred by user into snowflake table
 def insert_row_snowflake(new_fruit):
    my_cur = my_cnx.cursor()
-   my_cur.execute("insert into FRUIT_LOAD_LIST values ('test1')")
+   my_cur.execute("insert into FRUIT_LOAD_LIST values ('" + new_fruit +"')")
    return "Thanks for adding " + new_fruit
    
 
@@ -75,5 +77,6 @@ if streamlit.button('Add a Fruit to your List'):
       back_from_function = insert_row_snowflake(your_fruit)
       streamlit.text(back_from_function)
 
-
+#don't run anything past this
+#streamlit.stop()  
 
